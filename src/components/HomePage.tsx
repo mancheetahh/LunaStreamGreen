@@ -17,7 +17,6 @@ const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [showAllFaves, setShowAllFaves] = React.useState(false);
 
-
   const [recentlyViewedMovies, setRecentlyViewedMovies] = useState<any[]>([]);
   const [recentlyViewedTVEpisodes, setRecentlyViewedTVEpisodes] = useState<{ [showId: number]: { show: any, episodes: any[] } }>({});
 
@@ -31,20 +30,6 @@ const HomePage: React.FC = () => {
     const stored = localStorage.getItem('favoriteMovies');
     return stored ? JSON.parse(stored) : [];
   });
-
-  // Dayman audio functionality
-  const playDaymanAudio = () => {
-    try {
-      const audio = new Audio('./dayman.mp3');
-      audio.play().catch(error => {
-        console.error('Error playing Dayman audio:', error);
-        alert('Could not play audio. Make sure dayman.mp3 is in the public folder.');
-      });
-    } catch (error) {
-      console.error('Error creating audio:', error);
-      alert('Could not load audio file. Make sure dayman.mp3 is in the public folder.');
-    }
-  };
 
   // Load favorites from localStorage on mount
   useEffect(() => {
@@ -150,19 +135,6 @@ const HomePage: React.FC = () => {
             <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 green:text-green-300 mb-6 sm:mb-8 max-w-3xl mx-auto transition-colors duration-300 px-4">
               Discover and stream your favorite content with our beautiful, easy-to-use platform
             </p>
-            
-            {/* Dayman Button */}
-            <div className="mb-6">
-              <button
-                onClick={playDaymanAudio}
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-orange-600 green:from-green-500 green:to-green-600 text-white px-6 py-3 rounded-full font-semibold hover:from-yellow-600 hover:to-orange-700 green:hover:from-green-600 green:hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
-                title="Play Dayman audio"
-              >
-                <Play className="w-5 h-5" />
-                <span>Dayman</span>
-              </button>
-            </div>
-            
             {/* Search with Suggestions */}
             <div className="max-w-2xl mx-auto relative px-4">
               <form onSubmit={handleSearch} className="relative">

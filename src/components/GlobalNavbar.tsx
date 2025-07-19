@@ -1,10 +1,24 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Film, Archive, Home, Search } from 'lucide-react';
+import { Film, Archive, Home, Search, Play } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 
 const GlobalNavbar: React.FC = () => {
   const location = useLocation();
+
+  // Dayman audio functionality
+  const playDaymanAudio = () => {
+    try {
+      const audio = new Audio('./dayman.mp3');
+      audio.play().catch(error => {
+        console.error('Error playing Dayman audio:', error);
+        alert('Could not play audio. Make sure dayman.mp3 is in the public folder.');
+      });
+    } catch (error) {
+      console.error('Error creating audio:', error);
+      alert('Could not load audio file. Make sure dayman.mp3 is in the public folder.');
+    }
+  };
 
   const isActive = (path: string) => {
     if (path === '/' && location.pathname === '/') return true;
@@ -75,7 +89,15 @@ const GlobalNavbar: React.FC = () => {
           </div>
 
           {/* Theme Toggle */}
-          <div className="flex items-center ml-auto z-10">
+          <div className="flex items-center space-x-2 ml-auto z-10">
+            <button
+              onClick={playDaymanAudio}
+              className="p-2 text-gray-600 dark:text-gray-300 hover:text-yellow-600 dark:hover:text-yellow-400 transition-colors duration-200"
+              aria-label="Play Dayman audio"
+              title="Play Dayman"
+            >
+              <Play className="w-5 h-5" />
+            </button>
             <ThemeToggle />
           </div>
         </div>
