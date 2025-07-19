@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Film, TrendingUp, Heart } from 'lucide-react';
+import { Search, Film, TrendingUp, Heart, Play } from 'lucide-react';
 import { useNavigate, useParams, Link } from 'react-router-dom';
 
 import { tmdb } from '../services/tmdb';
@@ -31,6 +31,20 @@ const HomePage: React.FC = () => {
     const stored = localStorage.getItem('favoriteMovies');
     return stored ? JSON.parse(stored) : [];
   });
+
+  // Dayman audio functionality
+  const playDaymanAudio = () => {
+    try {
+      const audio = new Audio('./dayman.mp3');
+      audio.play().catch(error => {
+        console.error('Error playing Dayman audio:', error);
+        alert('Could not play audio. Make sure dayman.mp3 is in the public folder.');
+      });
+    } catch (error) {
+      console.error('Error creating audio:', error);
+      alert('Could not load audio file. Make sure dayman.mp3 is in the public folder.');
+    }
+  };
 
   // Load favorites from localStorage on mount
   useEffect(() => {
@@ -119,7 +133,7 @@ const HomePage: React.FC = () => {
   const showRecentlyViewed = recentlyViewedMovies.length > 0 || Object.keys(recentlyViewedTVEpisodes).length > 0;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 transition-colors duration-300">
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-indigo-100 dark:from-gray-950 dark:via-gray-900 dark:to-gray-950 green:from-green-900 green:via-green-800 green:to-green-950 transition-colors duration-300">
       <GlobalNavbar />
 
       {/* Hero & Search */}
@@ -128,20 +142,33 @@ const HomePage: React.FC = () => {
           {/* Heading */}
           <div className="text-center">
             <h1 className="text-3xl sm:text-4xl lg:text-6xl font-bold text-gray-900 dark:text-white mb-4 sm:mb-6 transition-colors duration-300 px-4">
-              <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 green:from-green-400 green:via-green-500 green:to-green-600 bg-clip-text text-transparent">
                 Watch Movies & TV Shows
               </span>
             </h1>
             {/* Subtitle */}
-            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 mb-6 sm:mb-8 max-w-3xl mx-auto transition-colors duration-300 px-4">
+            <p className="text-lg sm:text-xl text-gray-600 dark:text-gray-300 green:text-green-300 mb-6 sm:mb-8 max-w-3xl mx-auto transition-colors duration-300 px-4">
               Discover and stream your favorite content with our beautiful, easy-to-use platform
             </p>
+            
+            {/* Dayman Button */}
+            <div className="mb-6">
+              <button
+                onClick={playDaymanAudio}
+                className="inline-flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-orange-600 green:from-green-500 green:to-green-600 text-white px-6 py-3 rounded-full font-semibold hover:from-yellow-600 hover:to-orange-700 green:hover:from-green-600 green:hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                title="Play Dayman audio"
+              >
+                <Play className="w-5 h-5" />
+                <span>Dayman</span>
+              </button>
+            </div>
+            
             {/* Search with Suggestions */}
             <div className="max-w-2xl mx-auto relative px-4">
               <form onSubmit={handleSearch} className="relative">
-                <div className="relative bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm rounded-2xl shadow-xl border border-pink-200/50 dark:border-gray-700/50 transition-colors duration-300">
+                <div className="relative bg-white/90 dark:bg-gray-900/90 green:bg-green-900/90 backdrop-blur-sm rounded-2xl shadow-xl border border-pink-200/50 dark:border-gray-700/50 green:border-green-700/50 transition-colors duration-300">
                   <div className="absolute inset-y-0 left-0 pl-6 flex items-center pointer-events-none">
-                    <Search className="h-5 w-5 sm:h-6 sm:w-6 text-pink-400 dark:text-purple-400 transition-colors duration-300" />
+                    <Search className="h-5 w-5 sm:h-6 sm:w-6 text-pink-400 dark:text-purple-400 green:text-green-400 transition-colors duration-300" />
                   </div>
                   <input
                     type="text"
@@ -176,13 +203,13 @@ const HomePage: React.FC = () => {
                       }
                     }}
                     placeholder="Search for movies or TV shows..."
-                    className="block w-full pl-12 sm:pl-16 pr-4 sm:pr-6 py-4 sm:py-6 text-base sm:text-lg bg-transparent border-0 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white focus:ring-0 focus:outline-none transition-colors duration-300"
+                    className="block w-full pl-12 sm:pl-16 pr-4 sm:pr-6 py-4 sm:py-6 text-base sm:text-lg bg-transparent border-0 placeholder-gray-500 dark:placeholder-gray-400 green:placeholder-green-400 text-gray-900 dark:text-white green:text-green-100 focus:ring-0 focus:outline-none transition-colors duration-300"
                   />
                   <button
                     type="submit"
                     className="absolute inset-y-0 right-0 flex items-center pr-2 sm:pr-6"
                   >
-                    <div className="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                    <div className="bg-gradient-to-r from-pink-500 to-purple-600 green:from-green-500 green:to-green-600 text-white px-4 sm:px-8 py-2 sm:py-3 rounded-xl font-semibold hover:from-pink-600 hover:to-purple-700 green:hover:from-green-600 green:hover:to-green-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                       <span className="hidden sm:inline">Search</span>
                       <Search className="w-4 h-4 sm:hidden" />
                     </div>
@@ -190,15 +217,15 @@ const HomePage: React.FC = () => {
                 </div>
                 {/* Suggestions Dropdown */}
                 {suggestions.length > 0 && (
-                  <ul className="absolute z-50 mt-2 w-full bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 max-h-48 sm:max-h-64 overflow-auto">
+                  <ul className="absolute z-50 mt-2 w-full bg-white dark:bg-gray-800 green:bg-green-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 green:border-green-700 max-h-48 sm:max-h-64 overflow-auto">
                     {suggestions.map((item) => (
                       <li key={`${item.title || item.name}-${item.id}`}>
                         <button
                           onClick={() => navigate(`/${item.media_type}/${item.id}`)}
-                          className="w-full text-left px-3 sm:px-4 py-2 sm:py-3 hover:bg-pink-50 dark:hover:bg-gray-700 rounded-xl text-gray-800 dark:text-white transition-colors text-sm sm:text-base"
+                          className="w-full text-left px-3 sm:px-4 py-2 sm:py-3 hover:bg-pink-50 dark:hover:bg-gray-700 green:hover:bg-green-700 rounded-xl text-gray-800 dark:text-white green:text-green-100 transition-colors text-sm sm:text-base"
                         >
                           {item.title || item.name}
-                          <span className="ml-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                          <span className="ml-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 green:text-green-400">
                             ({item.media_type === 'movie' ? 'Movie' : 'TV'})
                           </span>
                         </button>
@@ -228,7 +255,7 @@ const HomePage: React.FC = () => {
                 {[...favoriteMovies, ...favoriteShows].length > 12 && (
                   <button
                     onClick={() => setShowAllFaves(!showAllFaves)}
-                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md transition"
+                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 green:bg-green-600 green:hover:bg-green-700 text-white rounded-md transition"
                   >
                     {showAllFaves ? 'Close' : 'Show All'}
                   </button>
@@ -347,7 +374,7 @@ const HomePage: React.FC = () => {
           <>
             {/* Trending Movies */}
             <div className="mb-12">
-              <h2 className="flex items-center mb-8 text-3xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
+              <h2 className="flex items-center mb-8 text-3xl font-bold text-gray-900 dark:text-white green:text-green-100 transition-colors duration-300">
                 <TrendingUp className="w-8 h-8 mr-3 text-pink-500" />
                 Trending Movies
               </h2>
@@ -356,7 +383,7 @@ const HomePage: React.FC = () => {
                   <Link
                     key={movie.id}
                     to={`/movie/${movie.id}`}
-                    className="group block bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-pink-200/50 dark:border-gray-700/50 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                    className="group block bg-white/80 dark:bg-gray-800/80 green:bg-green-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-pink-200/50 dark:border-gray-700/50 green:border-green-700/50 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
                   >
                     <div className="aspect-[2/3] overflow-hidden">
                       <img
@@ -366,10 +393,10 @@ const HomePage: React.FC = () => {
                       />
                     </div>
                     <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-2 line-clamp-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 transition-colors">
+                      <h3 className="font-semibold text-gray-900 dark:text-white green:text-green-100 text-sm mb-2 line-clamp-2 group-hover:text-pink-600 dark:group-hover:text-pink-400 green:group-hover:text-green-400 transition-colors">
                         {movie.title}
                       </h3>
-                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 green:text-green-400">
                         <span>{new Date(movie.release_date).getFullYear()}</span>
                         <div className="flex items-center">
                           <span className="text-yellow-500">★</span>
@@ -384,7 +411,7 @@ const HomePage: React.FC = () => {
 
             {/* Trending TV Shows */}
             <div>
-              <h2 className="flex items-center mb-8 text-3xl font-bold text-gray-900 dark:text-white transition-colors duration-300">
+              <h2 className="flex items-center mb-8 text-3xl font-bold text-gray-900 dark:text-white green:text-green-100 transition-colors duration-300">
                 <TrendingUp className="w-8 h-8 mr-3 text-purple-500" />
                 Trending TV Shows
               </h2>
@@ -393,7 +420,7 @@ const HomePage: React.FC = () => {
                   <Link
                     key={show.id}
                     to={`/tv/${show.id}`}
-                    className="group block bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-purple-200/50 dark:border-gray-700/50 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
+                    className="group block bg-white/80 dark:bg-gray-800/80 green:bg-green-800/80 backdrop-blur-sm rounded-xl shadow-lg border border-purple-200/50 dark:border-gray-700/50 green:border-green-700/50 overflow-hidden hover:shadow-2xl transition-all duration-300 hover:-translate-y-2"
                   >
                     <div className="aspect-[2/3] overflow-hidden">
                       <img
@@ -403,10 +430,10 @@ const HomePage: React.FC = () => {
                       />
                     </div>
                     <div className="p-4">
-                      <h3 className="font-semibold text-gray-900 dark:text-white text-sm mb-2 line-clamp-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors">
+                      <h3 className="font-semibold text-gray-900 dark:text-white green:text-green-100 text-sm mb-2 line-clamp-2 group-hover:text-purple-600 dark:group-hover:text-purple-400 green:group-hover:text-green-400 transition-colors">
                         {show.name}
                       </h3>
-                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
+                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 green:text-green-400">
                         <span>{new Date(show.first_air_date).getFullYear()}</span>
                         <div className="flex items-center">
                           <span className="text-yellow-500">★</span>
@@ -423,7 +450,7 @@ const HomePage: React.FC = () => {
       </div>
 
       {/* Footer social links */}
-      <div className="bg-white/60 dark:bg-gray-900/80 backdrop-blur-sm border-t border-pink-200/50 dark:border-gray-700/50 py-6 transition-colors duration-300">
+      <div className="bg-white/60 dark:bg-gray-900/80 green:bg-green-900/80 backdrop-blur-sm border-t border-pink-200/50 dark:border-gray-700/50 green:border-green-700/50 py-6 transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center items-center space-x-3">
             {/* Email */}
@@ -533,6 +560,11 @@ const HomePage: React.FC = () => {
             </a>
           </div>
         </div>
+      </div>
+      
+      {/* ElevenLabs ConvAI Widget */}
+      <div className="fixed bottom-4 right-4 z-50">
+        <elevenlabs-convai agent-id="agent_01jzq8wq0df8vahgmd8pnwqvs8"></elevenlabs-convai>
       </div>
     </div>
   );
